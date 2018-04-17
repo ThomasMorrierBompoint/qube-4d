@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <title>Qube 4D</title>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/build.json");
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <v-app dark>
+        <v-toolbar class="dark">
+          <v-toolbar-title v-text="title" style="color:#33aad7" onclick="window.open('http://www.qube-4d.com')"></v-toolbar-title>
+        </v-toolbar>
+        <v-snackbar
+          :top="true"
+          v-model="snackbar">
+          {{ text }}
+        </v-snackbar>
+        <div id="gameContainer" style="width: 100%; height: 100%; margin: auto"></div>
+      </v-app>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+    <script>
+    var vm = new Vue({
+      el: '#app',
+      data () {
+        return {
+          title: 'QUBE 4D',
+          snackbar: false,
+          text: ''
+        }
+      },
+      methods: {
+        createToast(text) {
+          this.text = 'Click: '+text;
+          this.snackbar = true;
+        }
+      }
+    });
+
+    var preventActionTimer = true;
+    var toast = function(txt) {
+      if (preventActionTimer) {
+        preventActionTimer = false;
+        setTimeout(() => preventActionTimer = true, 500);
+        vm.createToast(txt);
+      }
+    };
+    </script>
+  </body>
+</html>
